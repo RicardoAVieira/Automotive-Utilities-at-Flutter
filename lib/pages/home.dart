@@ -11,7 +11,7 @@ class HomePage extends StatefulWidget {
 class _HomeState extends State<HomePage> {
   List<EngineDimensions> testEngineDimensions = [
     EngineDimensions(
-        name: "fusca",
+        name: 'fusca',
         diameterOfCylinder: 84.5,
         crankshaftCourse: 86.5,
         chamberVolume: 24.5,
@@ -50,8 +50,9 @@ class _HomeState extends State<HomePage> {
                     DBProvider.db.deleteEngineDimensions(item.id);
                   },
                   child: ListTile(
-                    title: Text(item.name),
                     leading: Text(item.id.toString()),
+                    title: Text(item.name.toString()),
+                    subtitle: Text(item.diameterOfCylinder.toString()),
                   ),
                 );
               },
@@ -59,15 +60,6 @@ class _HomeState extends State<HomePage> {
           } else {
             return Center(child: CircularProgressIndicator());
           }
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () async {
-          EngineDimensions rnd = testEngineDimensions[
-              math.Random().nextInt(testEngineDimensions.length)];
-          await DBProvider.db.newEngineDimensions(rnd);
-          setState(() {});
         },
       ),
       drawer: _buildMenu(),

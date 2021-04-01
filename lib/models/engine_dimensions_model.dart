@@ -36,6 +36,7 @@ class EngineDimensions {
   factory EngineDimensions.fromMap(Map<String, dynamic> json) =>
       new EngineDimensions(
         id: json["id"],
+        name: json["name"],
         diameterOfCylinder: json["diameterOfCylinder"],
         crankshaftCourse: json["crankshaftCourse"],
         chamberVolume: json["chamberVolume"],
@@ -47,6 +48,7 @@ class EngineDimensions {
 
   Map<String, dynamic> toMap() => {
         "id": id,
+        "name": name,
         "diameterOfCylinder": diameterOfCylinder,
         "crankshaftCourse": crankshaftCourse,
         "chamberVolume": chamberVolume,
