@@ -2,7 +2,7 @@ import '../models/engine_results_model.dart';
 import 'package:flutter/material.dart';
 
 class ResultDialog extends StatelessWidget {
-  final EngineResultsModel result;
+  final EngineResults result;
 
   ResultDialog(this.result);
 
@@ -38,9 +38,7 @@ class ResultDialog extends StatelessWidget {
                 ),
               ),
             ),
-            RaisedButton(
-              color: Colors.amber[800],
-              textColor: Colors.black,
+            ElevatedButton(
               child: const Text('Fechar'),
               onPressed: () => _dispose(context),
             ),

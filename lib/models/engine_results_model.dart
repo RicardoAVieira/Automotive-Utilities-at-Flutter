@@ -1,4 +1,18 @@
-class EngineResultsModel {
+import 'dart:convert';
+
+EngineResults engineResultsJson(String str) {
+  final jsonData = json.decode(str);
+  return EngineResults.fromMap(jsonData);
+}
+
+String engineResultsToJson(EngineResults data) {
+  final dyn = data.toMap();
+  return json.encode(dyn);
+}
+
+class EngineResults {
+  final int id;
+  String name;
   double volumeCylinder;
   double volumeChamber;
   double totalVolume;
@@ -6,7 +20,9 @@ class EngineResultsModel {
   double volumeEngine;
   double jointVolume;
 
-  EngineResultsModel({
+  EngineResults({
+    this.id,
+    this.name,
     this.totalVolume = 0.0,
     this.volumeCylinder = 0.0,
     this.rateCylinder = 0.0,
@@ -14,4 +30,23 @@ class EngineResultsModel {
     this.volumeChamber = 0.0,
     this.jointVolume = 0.0,
   });
+  factory EngineResults.fromMap(Map<String, dynamic> json) => new EngineResults(
+        id: json["id"],
+        totalVolume: json["totalVolume"],
+        volumeCylinder: json["volumeCylinder"],
+        rateCylinder: json["rateCylinder"],
+        volumeEngine: json["volumeEngine"],
+        volumeChamber: json["volumeChamber"],
+        jointVolume: json["jointVolume"],
+      );
+
+  Map<String, dynamic> toMap() => {
+        "id": id,
+        "totalVolume": totalVolume,
+        "volumeCylinder": volumeCylinder,
+        "rateCylinder": rateCylinder,
+        "volumeEngine": volumeEngine,
+        "volumeChamber": volumeChamber,
+        "jointVolume": jointVolume,
+      };
 }

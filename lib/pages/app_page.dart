@@ -33,6 +33,71 @@ class _AutomotiveCalculatorState extends State<AutomotiveCalculatorPage> {
           child: _buildForm(),
         ),
       ),
+      drawer: _buildMenu(),
+    );
+  }
+
+  _buildMenu() {
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          DrawerHeader(
+            child: Text(
+              'Menu',
+              style: TextStyle(
+                color: Colors.amber,
+              ),
+            ),
+            decoration: BoxDecoration(
+              color: Colors.black,
+            ),
+          ),
+          ListTile(
+            tileColor: Colors.black,
+            title: Text(
+              'Home',
+              style: TextStyle(
+                color: Colors.amber,
+              ),
+            ),
+            onTap: () {
+              // Update the state of the app
+              // ...
+              // Then close the drawer
+              Navigator.pushNamed(context, '/');
+            },
+          ),
+          ListTile(
+            tileColor: Colors.black,
+            title: Text(
+              'Taxa de Compressão',
+              style: TextStyle(
+                color: Colors.amber,
+              ),
+            ),
+            onTap: () {
+              // Update the state of the app
+              // ...
+              // Then close the drawer
+              Navigator.pushNamed(context, '/taxa');
+            },
+          ),
+          ListTile(
+            tileColor: Colors.black,
+            title: Icon(
+              Icons.undo,
+              color: Colors.amber,
+            ),
+            onTap: () {
+              // Update the state of the app
+              // ...
+              // Then close the drawer
+              Navigator.pop(context);
+            },
+          ),
+        ],
+      ),
     );
   }
 
@@ -113,8 +178,7 @@ class _AutomotiveCalculatorState extends State<AutomotiveCalculatorPage> {
   }
 
   _buildCalculateButton() {
-    return RaisedButton(
-      color: Colors.black,
+    return ElevatedButton(
       child: const Text(
         'Calcular',
         style: TextStyle(

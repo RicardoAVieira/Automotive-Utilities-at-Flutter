@@ -3,7 +3,7 @@ import '../helpers/parse_helper.dart';
 import '../models/engine_dimensions_model.dart';
 
 class AutomotiveCalculatorController {
-  final engine = new EngineDimensionsModel();
+  final engine = new EngineDimensions();
 
   void setDiametroOfCylinder(String value) {
     engine.diameterOfCylinder = ParseHelper.toDouble(value);
@@ -33,8 +33,8 @@ class AutomotiveCalculatorController {
     engine.jointDiameter = ParseHelper.toDouble(value);
   }
 
-  EngineResultsModel calculateRate() {
-    final result = new EngineResultsModel();
+  EngineResults calculateRate() {
+    final result = new EngineResults();
     result.volumeCylinder = ((engine.diameterOfCylinder *
             engine.diameterOfCylinder *
             engine.crankshaftCourse *
