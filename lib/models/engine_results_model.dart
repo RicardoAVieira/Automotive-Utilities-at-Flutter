@@ -32,6 +32,7 @@ class EngineResults {
   });
   factory EngineResults.fromMap(Map<String, dynamic> json) => new EngineResults(
         id: json["id"],
+        name: json["name"],
         totalVolume: json["totalVolume"],
         volumeCylinder: json["volumeCylinder"],
         rateCylinder: json["rateCylinder"],
@@ -42,6 +43,7 @@ class EngineResults {
 
   Map<String, dynamic> toMap() => {
         "id": id,
+        "name": name,
         "totalVolume": totalVolume,
         "volumeCylinder": volumeCylinder,
         "rateCylinder": rateCylinder,

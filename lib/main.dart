@@ -15,9 +15,7 @@ class MyApp extends StatelessWidget {
       title: 'Calculadora Automotiva',
       initialRoute: '/',
       routes: {
-        // When navigating to the "/" route, build the FirstScreen widget.
         '/': (context) => HomePage(),
-        // When navigating to the "/second" route, build the SecondScreen widget.
         '/taxa': (context) => AutomotiveCalculatorPage(),
       },
       debugShowCheckedModeBanner: false,

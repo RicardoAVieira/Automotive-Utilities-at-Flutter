@@ -40,7 +40,7 @@ class ResultDialog extends StatelessWidget {
             ),
             ElevatedButton(
               child: const Text('Fechar'),
-              onPressed: () => _dispose(context),
+              onPressed: () => Navigator.pushNamed(context, '/'),
             ),
           ],
         ),

@@ -24,7 +24,15 @@ class _AutomotiveCalculatorState extends State<AutomotiveCalculatorPage> {
             color: Colors.amber,
           ),
         ),
-        actions: <Widget>[],
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.home),
+            tooltip: 'Go Home',
+            onPressed: () {
+              Navigator.pushNamed(context, '/');
+            },
+          )
+        ],
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -37,70 +45,6 @@ class _AutomotiveCalculatorState extends State<AutomotiveCalculatorPage> {
     );
   }
 
-  _buildMenu() {
-    return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: <Widget>[
-          DrawerHeader(
-            child: Text(
-              'Menu',
-              style: TextStyle(
-                color: Colors.amber,
-              ),
-            ),
-            decoration: BoxDecoration(
-              color: Colors.black,
-            ),
-          ),
-          ListTile(
-            tileColor: Colors.black,
-            title: Text(
-              'Home',
-              style: TextStyle(
-                color: Colors.amber,
-              ),
-            ),
-            onTap: () {
-              // Update the state of the app
-              // ...
-              // Then close the drawer
-              Navigator.pushNamed(context, '/');
-            },
-          ),
-          ListTile(
-            tileColor: Colors.black,
-            title: Text(
-              'Taxa de Compressão',
-              style: TextStyle(
-                color: Colors.amber,
-              ),
-            ),
-            onTap: () {
-              // Update the state of the app
-              // ...
-              // Then close the drawer
-              Navigator.pushNamed(context, '/taxa');
-            },
-          ),
-          ListTile(
-            tileColor: Colors.black,
-            title: Icon(
-              Icons.undo,
-              color: Colors.amber,
-            ),
-            onTap: () {
-              // Update the state of the app
-              // ...
-              // Then close the drawer
-              Navigator.pop(context);
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
   _buildForm() {
     return Form(
       key: _formkey,
@@ -109,9 +53,14 @@ class _AutomotiveCalculatorState extends State<AutomotiveCalculatorPage> {
         children: [
           _buildHeaderText('Informe os Dados do Motor'),
           _buildVerticalSpace(),
+          _buildTextInputField(
+            'Informe o Nome do Veiculo:',
+            onSaved: _controller.setCarName,
+          ),
+          _buildVerticalSpace(),
           _buildNumberInputField(
             'Diametro Pistão (milimetros)',
-            onSaved: _controller.setDiametroOfCylinder,
+            onSaved: _controller.setEngineDimensions,
           ),
           _buildVerticalSpace(),
           _buildNumberInputField(
@@ -177,8 +126,38 @@ class _AutomotiveCalculatorState extends State<AutomotiveCalculatorPage> {
     );
   }
 
+  _buildTextInputField(String label, {Function(String) onSaved}) {
+    return TextFormField(
+      onSaved: onSaved,
+      decoration: InputDecoration(
+        fillColor: Colors.black,
+        border: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: Colors.amber,
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(4)),
+          borderSide: BorderSide(width: 1, color: Colors.amber[600]),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(4)),
+          borderSide: BorderSide(width: 1, color: Colors.black),
+        ),
+        labelStyle: TextStyle(
+          color: Colors.black,
+        ),
+        labelText: label,
+      ),
+      validator: ValidatorHelper.isValidText,
+      keyboardType: TextInputType.text,
+    );
+  }
+
   _buildCalculateButton() {
     return ElevatedButton(
+      style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all<Color>(Colors.black)),
       child: const Text(
         'Calcular',
         style: TextStyle(
@@ -215,10 +194,86 @@ class _AutomotiveCalculatorState extends State<AutomotiveCalculatorPage> {
     if (_formkey.currentState.validate()) {
       _formkey.currentState.save();
       final result = _controller.calculateRate();
+
       showDialog(
         context: context,
         builder: (context) => ResultDialog(result),
       );
     }
+  }
+
+  _buildMenu() {
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          DrawerHeader(
+            child: Text(
+              'Calculadora Automotiva',
+              style: TextStyle(
+                letterSpacing: 5,
+                color: Colors.amber,
+                fontSize: 24,
+              ),
+            ),
+            decoration: BoxDecoration(
+              color: Colors.black,
+            ),
+          ),
+          ListTile(
+            tileColor: Colors.black,
+            contentPadding: EdgeInsets.all(5),
+            title: Text(
+              'Home',
+              style: TextStyle(
+                color: Colors.amber,
+              ),
+            ),
+            onTap: () {
+              // Update the state of the app
+              // ...
+              // Then close the drawer
+              Navigator.pushNamed(context, '/');
+            },
+          ),
+          SizedBox(
+            height: 4,
+          ),
+          ListTile(
+            contentPadding: EdgeInsets.all(5),
+            tileColor: Colors.black,
+            title: Text(
+              'Taxa de Compressão',
+              style: TextStyle(
+                color: Colors.amber,
+              ),
+            ),
+            onTap: () {
+              // Update the state of the app
+              // ...
+              // Then close the drawer
+              Navigator.pushNamed(context, '/taxa');
+            },
+          ),
+          SizedBox(
+            height: 4,
+          ),
+          ListTile(
+            tileColor: Colors.black,
+            contentPadding: EdgeInsets.all(5),
+            title: Icon(
+              Icons.arrow_back,
+              color: Colors.amber,
+            ),
+            onTap: () {
+              // Update the state of the app
+              // ...
+              // Then close the drawer
+              Navigator.pop(context);
+            },
+          ),
+        ],
+      ),
+    );
   }
 }

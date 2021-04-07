@@ -1,11 +1,16 @@
 import 'package:calculos_automotivos/models/engine_results_model.dart';
 import '../helpers/parse_helper.dart';
 import '../models/engine_dimensions_model.dart';
+import '../Database.dart';
 
 class AutomotiveCalculatorController {
   final engine = new EngineDimensions();
 
-  void setDiametroOfCylinder(String value) {
+  void setCarName(String value) {
+    engine.name = value;
+  }
+
+  void setEngineDimensions(String value) {
     engine.diameterOfCylinder = ParseHelper.toDouble(value);
   }
 
@@ -56,6 +61,10 @@ class AutomotiveCalculatorController {
         ((result.volumeCylinder + result.volumeChamber) / result.volumeChamber);
 
     result.volumeEngine = (result.volumeCylinder * engine.numberOfPistons);
+    result.name = engine.name;
+
+    DBProvider.db.newEngineDimensions(engine);
+    DBProvider.db.newEngineResults(result);
 
     return result;
   }

@@ -9,6 +9,42 @@ import './models/engine_results_model.dart';
 import './models/fuel_result_model.dart';
 import 'package:sqflite/sqflite.dart';
 
+const tableEngineDimensions = "CREATE TABLE tableEngineDimensions ("
+    "id INTEGER PRIMARY KEY,"
+    "name TEXT,"
+    "diameterOfCylinder REAL,"
+    "crankshaftCourse REAL,"
+    "chamberVolume REAL,"
+    "pistonVolume REAL,"
+    "numberOfPistons REAL,"
+    "jointThinckness REAL,"
+    "jointDiameter REAL"
+    ");";
+
+const tableEngineResults = "CREATE TABLE tableEngineResults ("
+    "id INTEGER PRIMARY KEY,"
+    "name TEXT,"
+    "volumeCylinder REAL,"
+    "volumeChamber REAL,"
+    "totalVolume REAL,"
+    "rateCylinder REAL,"
+    "volumeEngine REAL,"
+    "jointVolume REAL"
+    ");";
+
+const tableFuelResult = "CREATE TABLE tableFuelResult ("
+    "id INTEGER PRIMARY KEY,"
+    "name TEXT,"
+    "amount REAL"
+    ");";
+
+const tableFuelType = "CREATE TABLE tableFuelType ("
+    "id INTEGER PRIMARY KEY,"
+    "name TEXT,"
+    "liters REAL,"
+    "price REAL"
+    ");";
+
 class DBProvider {
   DBProvider._();
 
@@ -28,38 +64,10 @@ class DBProvider {
     String path = join(documentsDirectory.path, "AutoCalc.db");
     return await openDatabase(path, version: 1, onOpen: (db) {},
         onCreate: (Database db, int version) async {
-      await db.execute("CREATE TABLE EngineDimensions ("
-          "id INTEGER PRIMARY KEY,"
-          "name TEXT,"
-          "diameterOfCylinder REAL,"
-          "crankshaftCourse REAL,"
-          "chamberVolume REAL,"
-          "pistonVolume REAL,"
-          "numberOfPistons REAL,"
-          "jointThinckness REAL,"
-          "jointDiameter REAL"
-          ");"
-          "CREATE TABLE EngineResults ("
-          "id INTEGER PRIMARY KEY,"
-          "name TEXT,"
-          "volumeCylinder REAL,"
-          "volumeChamber REAL,"
-          "totalVolume REAL,"
-          "rateCylinder REAL,"
-          "volumeEngine REAL,"
-          "jointVolume REAL"
-          ");"
-          "CREATE TABLE FuelResult ("
-          "id INTEGER PRIMARY KEY,"
-          "name TEXT,"
-          "amount REAL"
-          ");"
-          "CREATE TABLE FuelType ("
-          "id INTEGER PRIMARY KEY,"
-          "name TEXT,"
-          "liters REAL,"
-          "price REAL"
-          ");");
+      await db.execute(tableEngineDimensions);
+      await db.execute(tableEngineResults);
+      await db.execute(tableFuelResult);
+      await db.execute(tableFuelType);
     });
   }
 
@@ -67,11 +75,11 @@ class DBProvider {
     final db = await database;
     //get the biggest id in the table
     var table =
-        await db.rawQuery("SELECT MAX(id)+1 as id FROM EngineDimensions");
+        await db.rawQuery("SELECT MAX(id)+1 as id FROM tableEngineDimensions");
     int id = table.first["id"];
     //insert to the table using the new id
     var raw = await db.rawInsert(
-        "INSERT Into EngineDimensions (id,name,diameterOfCylinder,crankshaftCourse,chamberVolume,pistonVolume,numberOfPistons,jointThinckness,jointDiameter)"
+        "INSERT Into tableEngineDimensions (id,name,diameterOfCylinder,crankshaftCourse,chamberVolume,pistonVolume,numberOfPistons,jointThinckness,jointDiameter)"
         " VALUES (?,?,?,?,?,?,?,?,?)",
         [
           id,
@@ -90,11 +98,12 @@ class DBProvider {
   newEngineResults(EngineResults newEngineResults) async {
     final db = await database;
     //get the biggest id in the table
-    var table = await db.rawQuery("SELECT MAX(id)+1 as id FROM EngineResults");
+    var table =
+        await db.rawQuery("SELECT MAX(id)+1 as id FROM tableEngineResults");
     int id = table.first["id"];
     //insert to the table using the new id
     var raw = await db.rawInsert(
-        "INSERT Into EngineResults (id,name,volumeCylinder,volumeChamber,totalVolume,rateCylinder,volumeEngine,jointVolume)"
+        "INSERT Into tableEngineResults (id,name,volumeCylinder,volumeChamber,totalVolume,rateCylinder,volumeEngine,jointVolume)"
         " VALUES (?,?,?,?,?,?,?,?)",
         [
           id,
@@ -109,7 +118,7 @@ class DBProvider {
     return raw;
   }
 
-  newFuelType(FuelType newFuelType) async {
+  netablewFuelType(FuelType newFuelType) async {
     final db = await database;
     //get the biggest id in the table
     var table = await db.rawQuery("SELECT MAX(id)+1 as id FROM FuelType");
@@ -146,60 +155,63 @@ class DBProvider {
 
   updateEngineDimensions(EngineDimensions newEngineDimensions) async {
     final db = await database;
-    var res = await db.update("EngineDimensions", newEngineDimensions.toMap(),
+    var res = await db.update(
+        "tableEngineDimensions", newEngineDimensions.toMap(),
         where: "id = ?", whereArgs: [newEngineDimensions.id]);
     return res;
   }
 
   updateEngineResults(EngineResults newEngineResults) async {
     final db = await database;
-    var res = await db.update("EngineResults", newEngineResults.toMap(),
+    var res = await db.update("tableEngineResults", newEngineResults.toMap(),
         where: "id = ?", whereArgs: [newEngineResults.id]);
     return res;
   }
 
   updateFuelResult(FuelResult newFuelResult) async {
     final db = await database;
-    var res = await db.update("FuelResult", newFuelResult.toMap(),
+    var res = await db.update("tableFuelResult", newFuelResult.toMap(),
         where: "id = ?", whereArgs: [newFuelResult.id]);
     return res;
   }
 
   updateFuelType(FuelType newFuelType) async {
     final db = await database;
-    var res = await db.update("FuelType", newFuelType.toMap(),
+    var res = await db.update("tableFuelType", newFuelType.toMap(),
         where: "id = ?", whereArgs: [newFuelType.id]);
     return res;
   }
 
   getEngineDimensions(int id) async {
     final db = await database;
-    var res =
-        await db.query("EngineDimensions", where: "id = ?", whereArgs: [id]);
+    var res = await db
+        .query("tableEngineDimensions", where: "id = ?", whereArgs: [id]);
     return res.isNotEmpty ? EngineDimensions.fromMap(res.first) : null;
   }
 
   getEngineResults(int id) async {
     final db = await database;
-    var res = await db.query("EngineResults", where: "id = ?", whereArgs: [id]);
+    var res =
+        await db.query("tableEngineResults", where: "id = ?", whereArgs: [id]);
     return res.isNotEmpty ? EngineResults.fromMap(res.first) : null;
   }
 
   getFuelResult(int id) async {
     final db = await database;
-    var res = await db.query("FuelResult", where: "id = ?", whereArgs: [id]);
+    var res =
+        await db.query("tableFuelResult", where: "id = ?", whereArgs: [id]);
     return res.isNotEmpty ? FuelResult.fromMap(res.first) : null;
   }
 
   getFuelType(int id) async {
     final db = await database;
-    var res = await db.query("FuelType", where: "id = ?", whereArgs: [id]);
+    var res = await db.query("tableFuelType", where: "id = ?", whereArgs: [id]);
     return res.isNotEmpty ? FuelType.fromMap(res.first) : null;
   }
 
   Future<List<EngineDimensions>> getAllEngineDimensions() async {
     final db = await database;
-    var res = await db.query("EngineDimensions");
+    var res = await db.query("tableEngineDimensions");
     List<EngineDimensions> list = res.isNotEmpty
         ? res.map((c) => EngineDimensions.fromMap(c)).toList()
         : [];
@@ -208,7 +220,7 @@ class DBProvider {
 
   Future<List<EngineResults>> getAllEngineResults() async {
     final db = await database;
-    var res = await db.query("EngineResults");
+    var res = await db.query("tableEngineResults");
     List<EngineResults> list =
         res.isNotEmpty ? res.map((c) => EngineResults.fromMap(c)).toList() : [];
     return list;
@@ -216,7 +228,7 @@ class DBProvider {
 
   Future<List<FuelResult>> getAllFuelResult() async {
     final db = await database;
-    var res = await db.query("FuelResult");
+    var res = await db.query("tableFuelResult");
     List<FuelResult> list =
         res.isNotEmpty ? res.map((c) => FuelResult.fromMap(c)).toList() : [];
     return list;
@@ -224,7 +236,7 @@ class DBProvider {
 
   Future<List<FuelType>> getAllFuelType() async {
     final db = await database;
-    var res = await db.query("FuelType");
+    var res = await db.query("tableFuelType");
     List<FuelType> list =
         res.isNotEmpty ? res.map((c) => FuelType.fromMap(c)).toList() : [];
     return list;
@@ -232,41 +244,41 @@ class DBProvider {
 
   deleteEngineDimensions(int id) async {
     final db = await database;
-    return db.delete("EngineDimensions", where: "id = ?", whereArgs: [id]);
+    return db.delete("tableEngineDimensions", where: "id = ?", whereArgs: [id]);
   }
 
   deleteEngineResults(int id) async {
     final db = await database;
-    return db.delete("EngineResults", where: "id = ?", whereArgs: [id]);
+    return db.delete("tableEngineResults", where: "id = ?", whereArgs: [id]);
   }
 
   deleteFuelResult(int id) async {
     final db = await database;
-    return db.delete("FuelResult", where: "id = ?", whereArgs: [id]);
+    return db.delete("tableFuelResult", where: "id = ?", whereArgs: [id]);
   }
 
   deleteFuelType(int id) async {
     final db = await database;
-    return db.delete("FuelType", where: "id = ?", whereArgs: [id]);
+    return db.delete("tableFuelType", where: "id = ?", whereArgs: [id]);
   }
 
   deleteAllEngineDimensions() async {
     final db = await database;
-    db.rawDelete("Delete * from EngineDimensions");
+    db.rawDelete("Delete * from tableEngineDimensions");
   }
 
   deleteAllEngineResults() async {
     final db = await database;
-    db.rawDelete("Delete * from EngineDimensions");
+    db.rawDelete("Delete * from tableEngineResults");
   }
 
   deleteAllFuelResult() async {
     final db = await database;
-    db.rawDelete("Delete * from FuelResult");
+    db.rawDelete("Delete * from tableFuelResult");
   }
 
   deleteAllFuelType() async {
     final db = await database;
-    db.rawDelete("Delete * from FuelType");
+    db.rawDelete("Delete * from tableFuelType");
   }
 }

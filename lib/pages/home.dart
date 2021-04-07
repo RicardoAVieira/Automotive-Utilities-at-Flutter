@@ -1,7 +1,6 @@
-import 'package:calculos_automotivos/models/engine_dimensions_model.dart';
+import 'package:calculos_automotivos/models/engine_results_model.dart';
 import 'package:flutter/material.dart';
 import '../Database.dart';
-import 'dart:math' as math;
 
 class HomePage extends StatefulWidget {
   @override
@@ -9,18 +8,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomeState extends State<HomePage> {
-  List<EngineDimensions> testEngineDimensions = [
-    EngineDimensions(
-        name: 'fusca',
-        diameterOfCylinder: 84.5,
-        crankshaftCourse: 86.5,
-        chamberVolume: 24.5,
-        pistonVolume: 10.5,
-        numberOfPistons: 4,
-        jointThinckness: 3.10,
-        jointDiameter: 85),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,30 +16,58 @@ class _HomeState extends State<HomePage> {
         title: const Text(
           'Calculadora Automotiva',
           style: TextStyle(
+            fontSize: 15,
             color: Colors.amber,
           ),
         ),
-        actions: <Widget>[],
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.add),
+            tooltip: 'Add New Car',
+            onPressed: () {
+              Navigator.pushNamed(context, '/taxa');
+            },
+          )
+        ],
       ),
-      body: FutureBuilder<List<EngineDimensions>>(
-        future: DBProvider.db.getAllEngineDimensions(),
+      body: FutureBuilder<List<EngineResults>>(
+        future: DBProvider.db.getAllEngineResults(),
         builder: (BuildContext context,
-            AsyncSnapshot<List<EngineDimensions>> snapshot) {
+            AsyncSnapshot<List<EngineResults>> snapshot) {
           if (snapshot.hasData) {
             return ListView.builder(
               itemCount: snapshot.data.length,
               itemBuilder: (BuildContext context, int index) {
-                EngineDimensions item = snapshot.data[index];
+                EngineResults item = snapshot.data[index];
                 return Dismissible(
                   key: UniqueKey(),
                   background: Container(color: Colors.red),
                   onDismissed: (direction) {
-                    DBProvider.db.deleteEngineDimensions(item.id);
+                    DBProvider.db.deleteEngineResults(item.id);
                   },
-                  child: ListTile(
-                    leading: Text(item.id.toString()),
-                    title: Text(item.name.toString()),
-                    subtitle: Text(item.diameterOfCylinder.toString()),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 4,
+                      ),
+                      ListTile(
+                        tileColor: Colors.grey[300],
+                        leading: Text(item.name.toString()),
+                        title: Text(
+                            "Taxa: " + item.rateCylinder.toStringAsFixed(2)),
+                        subtitle: Text("Cilindrada Motor: " +
+                            item.volumeEngine.toStringAsFixed(2)),
+                        trailing: IconButton(
+                          icon: const Icon(Icons.delete),
+                          tooltip: 'Delete carr',
+                          onPressed: () {
+                            DBProvider.db.deleteEngineResults(item.id);
+                            setState(() {});
+                          },
+                        ),
+                        onTap: () {},
+                      ),
+                    ],
                   ),
                 );
               },
@@ -73,9 +88,11 @@ class _HomeState extends State<HomePage> {
         children: <Widget>[
           DrawerHeader(
             child: Text(
-              'Menu',
+              'Calculadora Automotiva',
               style: TextStyle(
+                letterSpacing: 5,
                 color: Colors.amber,
+                fontSize: 24,
               ),
             ),
             decoration: BoxDecoration(
@@ -84,6 +101,7 @@ class _HomeState extends State<HomePage> {
           ),
           ListTile(
             tileColor: Colors.black,
+            contentPadding: EdgeInsets.all(5),
             title: Text(
               'Home',
               style: TextStyle(
@@ -97,7 +115,11 @@ class _HomeState extends State<HomePage> {
               Navigator.pushNamed(context, '/');
             },
           ),
+          SizedBox(
+            height: 4,
+          ),
           ListTile(
+            contentPadding: EdgeInsets.all(5),
             tileColor: Colors.black,
             title: Text(
               'Taxa de Compressão',
@@ -112,10 +134,14 @@ class _HomeState extends State<HomePage> {
               Navigator.pushNamed(context, '/taxa');
             },
           ),
+          SizedBox(
+            height: 4,
+          ),
           ListTile(
             tileColor: Colors.black,
+            contentPadding: EdgeInsets.all(5),
             title: Icon(
-              Icons.undo,
+              Icons.arrow_back,
               color: Colors.amber,
             ),
             onTap: () {
