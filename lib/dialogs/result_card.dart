@@ -47,8 +47,4 @@ class ResultDialog extends StatelessWidget {
       ),
     );
   }
-
-  _dispose(context) {
-    Navigator.of(context).pop();
-  }
 }
