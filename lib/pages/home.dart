@@ -1,4 +1,5 @@
 import 'package:calculos_automotivos/models/engine_results_model.dart';
+import 'package:calculos_automotivos/utils/menu.dart';
 import 'package:flutter/material.dart';
 import '../Database.dart';
 
@@ -8,6 +9,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomeState extends State<HomePage> {
+  final _formkey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,139 +23,47 @@ class _HomeState extends State<HomePage> {
             color: Colors.amber,
           ),
         ),
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.add),
-            tooltip: 'Add New Car',
-            onPressed: () {
-              Navigator.pushNamed(context, '/taxa');
-            },
-          )
-        ],
+        actions: <Widget>[],
       ),
-      body: FutureBuilder<List<EngineResults>>(
-        future: DBProvider.db.getAllEngineResults(),
-        builder: (BuildContext context,
-            AsyncSnapshot<List<EngineResults>> snapshot) {
-          if (snapshot.hasData) {
-            return ListView.builder(
-              itemCount: snapshot.data.length,
-              itemBuilder: (BuildContext context, int index) {
-                EngineResults item = snapshot.data[index];
-                return Dismissible(
-                  key: UniqueKey(),
-                  background: Container(color: Colors.red),
-                  onDismissed: (direction) {
-                    DBProvider.db.deleteEngineResults(item.id);
-                  },
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 4,
-                      ),
-                      ListTile(
-                        tileColor: Colors.grey[300],
-                        leading: Text(item.name.toString()),
-                        title: Text(
-                            "Taxa: " + item.rateCylinder.toStringAsFixed(2)),
-                        subtitle: Text("Cilindrada Motor: " +
-                            item.volumeEngine.toStringAsFixed(2)),
-                        trailing: IconButton(
-                          icon: const Icon(Icons.delete),
-                          tooltip: 'Delete carr',
-                          onPressed: () {
-                            DBProvider.db.deleteEngineResults(item.id);
-                            setState(() {});
-                          },
-                        ),
-                        onTap: () {},
-                      ),
-                    ],
-                  ),
-                );
-              },
-            );
-          } else {
-            return Center(child: CircularProgressIndicator());
-          }
-        },
+      body: SingleChildScrollView(
+        child: Container(
+          color: Colors.grey[200],
+          padding: const EdgeInsets.all(20),
+          child: _buildForm(),
+        ),
       ),
-      drawer: _buildMenu(),
+      drawer: menu.buildMenu(context),
     );
   }
 
-  _buildMenu() {
-    return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: <Widget>[
-          DrawerHeader(
-            child: Text(
-              'Calculadora Automotiva',
-              style: TextStyle(
-                letterSpacing: 5,
-                color: Colors.amber,
-                fontSize: 24,
-              ),
-            ),
-            decoration: BoxDecoration(
-              color: Colors.black,
-            ),
+  _buildForm() {
+    return Form(
+      key: _formkey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text('Seja bem vindo !!!'),
+          SizedBox(
+            height: 150,
           ),
-          ListTile(
-            tileColor: Colors.black,
-            contentPadding: EdgeInsets.all(5),
-            title: Text(
-              'Home',
-              style: TextStyle(
-                color: Colors.amber,
-              ),
-            ),
-            onTap: () {
-              // Update the state of the app
-              // ...
-              // Then close the drawer
-              Navigator.pushNamed(context, '/');
-            },
+          ElevatedButton(
+            child: const Text('Calcular Taxa'),
+            onPressed: () => Navigator.pushNamed(context, '/taxa'),
           ),
           SizedBox(
-            height: 4,
+            height: 10,
           ),
-          ListTile(
-            contentPadding: EdgeInsets.all(5),
-            tileColor: Colors.black,
-            title: Text(
-              'Taxa de Compressão',
-              style: TextStyle(
-                color: Colors.amber,
-              ),
-            ),
-            onTap: () {
-              // Update the state of the app
-              // ...
-              // Then close the drawer
-              Navigator.pushNamed(context, '/taxa');
-            },
+          ElevatedButton(
+            child: const Text('Calcular Consumo Medio'),
+            onPressed: () => Navigator.pushNamed(context, '/consumo'),
           ),
           SizedBox(
-            height: 4,
-          ),
-          ListTile(
-            tileColor: Colors.black,
-            contentPadding: EdgeInsets.all(5),
-            title: Icon(
-              Icons.arrow_back,
-              color: Colors.amber,
-            ),
-            onTap: () {
-              // Update the state of the app
-              // ...
-              // Then close the drawer
-              Navigator.pop(context);
-            },
+            height: 200,
           ),
         ],
       ),
     );
   }
+
+  Menu menu = new Menu();
 }

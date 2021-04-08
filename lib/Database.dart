@@ -35,13 +35,15 @@ const tableEngineResults = "CREATE TABLE tableEngineResults ("
 const tableFuelResult = "CREATE TABLE tableFuelResult ("
     "id INTEGER PRIMARY KEY,"
     "name TEXT,"
-    "amount REAL"
+    "amount REAL,"
+    "kmliter REAL"
     ");";
 
 const tableFuelType = "CREATE TABLE tableFuelType ("
     "id INTEGER PRIMARY KEY,"
     "name TEXT,"
     "liters REAL,"
+    "km REAL,"
     "price REAL"
     ");";
 
@@ -118,19 +120,20 @@ class DBProvider {
     return raw;
   }
 
-  netablewFuelType(FuelType newFuelType) async {
+  newFuelType(FuelType newFuelType) async {
     final db = await database;
     //get the biggest id in the table
-    var table = await db.rawQuery("SELECT MAX(id)+1 as id FROM FuelType");
+    var table = await db.rawQuery("SELECT MAX(id)+1 as id FROM tableFuelType");
     int id = table.first["id"];
     //insert to the table using the new id
     var raw = await db.rawInsert(
-        "INSERT Into FuelType (id,name,liters,price)"
-        " VALUES (?,?,?,?)",
+        "INSERT Into tableFuelType (id,name,liters,km,price)"
+        " VALUES (?,?,?,?,?)",
         [
           id,
           newFuelType.name,
           newFuelType.liters,
+          newFuelType.km,
           newFuelType.price,
         ]);
     return raw;
@@ -139,16 +142,18 @@ class DBProvider {
   newFuelResult(FuelResult newFuelResult) async {
     final db = await database;
     //get the biggest id in the table
-    var table = await db.rawQuery("SELECT MAX(id)+1 as id FROM FuelResult");
+    var table =
+        await db.rawQuery("SELECT MAX(id)+1 as id FROM tableFuelResult");
     int id = table.first["id"];
     //insert to the table using the new id
     var raw = await db.rawInsert(
-        "INSERT Into FuelResult (id,name,amount)"
-        " VALUES (?,?,?)",
+        "INSERT Into tableFuelResult (id,name,amount,kmliter)"
+        " VALUES (?,?,?,?)",
         [
           id,
           newFuelResult.name,
           newFuelResult.amount,
+          newFuelResult.kmliter,
         ]);
     return raw;
   }

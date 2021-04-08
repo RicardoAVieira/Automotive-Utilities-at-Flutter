@@ -14,22 +14,26 @@ class FuelResult {
   int id;
   String name;
   double amount;
+  double kmliter;
 
   FuelResult({
     this.id,
     this.name,
     this.amount,
+    this.kmliter,
   });
 
   factory FuelResult.fromMap(Map<String, dynamic> json) => new FuelResult(
         id: json["id"],
         name: json["name"],
         amount: json["amount"],
+        kmliter: json["kmliter"],
       );
 
   Map<String, dynamic> toMap() => {
         "id": id,
         "name": name,
         "amount": amount,
+        "kmliter": kmliter,
       };
 }

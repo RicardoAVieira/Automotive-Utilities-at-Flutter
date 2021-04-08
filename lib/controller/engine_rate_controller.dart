@@ -3,7 +3,7 @@ import '../helpers/parse_helper.dart';
 import '../models/engine_dimensions_model.dart';
 import '../Database.dart';
 
-class AutomotiveCalculatorController {
+class EngineRateController {
   final engine = new EngineDimensions();
 
   void setCarName(String value) {
