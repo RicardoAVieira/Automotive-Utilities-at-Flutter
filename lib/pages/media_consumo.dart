@@ -71,7 +71,6 @@ class _MediaConsumoState extends State<MediaConsumo> {
             onSaved: _controller.setFuelLiters,
           ),
           _buildVerticalSpace(),
-          _buildVerticalSpace(),
           _buildNumberInputField(
             'Km Percorridos: ',
             onSaved: _controller.setKM,

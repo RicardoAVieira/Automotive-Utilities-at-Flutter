@@ -40,19 +40,44 @@ class _HomeState extends State<HomePage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text('Seja bem vindo !!!'),
           SizedBox(
             height: 150,
+            width: 280,
+            child: Image.asset(
+              'lib/assets/img/logo.jpg',
+              width: 600,
+              height: 240,
+              fit: BoxFit.cover,
+            ),
+          ),
+          SizedBox(
+            height: 50,
           ),
           ElevatedButton(
-            child: const Text('Calcular Taxa'),
+            style: ButtonStyle(
+                backgroundColor:
+                    MaterialStateProperty.all<Color>(Colors.black)),
+            child: const Text(
+              'Calcular Taxa',
+              style: TextStyle(
+                color: Colors.amber,
+              ),
+            ),
             onPressed: () => Navigator.pushNamed(context, '/taxa'),
           ),
           SizedBox(
             height: 10,
           ),
           ElevatedButton(
-            child: const Text('Calcular Consumo Medio'),
+            style: ButtonStyle(
+                backgroundColor:
+                    MaterialStateProperty.all<Color>(Colors.black)),
+            child: const Text(
+              'Calcular Consumo Medio',
+              style: TextStyle(
+                color: Colors.amber,
+              ),
+            ),
             onPressed: () => Navigator.pushNamed(context, '/consumo'),
           ),
           SizedBox(
