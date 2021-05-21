@@ -39,8 +39,14 @@ class ResultDialog extends StatelessWidget {
               ),
             ),
             ElevatedButton(
-              child: const Text('Fechar'),
-              onPressed: () => Navigator.pushNamed(context, '/'),
+              style: ElevatedButton.styleFrom(
+                primary: Colors.grey[900],
+              ),
+              child: const Text(
+                'Fechar',
+                style: TextStyle(color: Colors.amber),
+              ),
+              onPressed: () => Navigator.pushNamed(context, '/list_engine'),
             ),
           ],
         ),

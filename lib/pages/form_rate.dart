@@ -1,9 +1,9 @@
-import 'package:calculos_automotivos/controller/engine_rate_controller.dart';
-import 'package:calculos_automotivos/helpers/validtor_helper.dart';
-import 'package:calculos_automotivos/dialogs/result_card.dart';
+import 'package:utilidades_automotivas/controller/engine_rate_controller.dart';
+import 'package:utilidades_automotivas/helpers/validtor_helper.dart';
+import 'package:utilidades_automotivas/dialogs/result_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:calculos_automotivos/utils/menu.dart';
+import 'package:utilidades_automotivas/utils/menu.dart';
 
 class EngineRatePage extends StatefulWidget {
   @override
@@ -27,17 +27,27 @@ class _EngineRateState extends State<EngineRatePage> {
         ),
         actions: <Widget>[
           IconButton(
-            icon: const Icon(Icons.arrow_back),
-            tooltip: 'Return',
+            icon: const Icon(Icons.list),
+            tooltip: 'Lista de Taxas de Compressão',
             onPressed: () {
               Navigator.pushNamed(context, '/list_engine');
+            },
+          ),
+          IconButton(
+            icon: const Icon(
+              Icons.close,
+              color: Colors.red,
+            ),
+            tooltip: 'Voltar para Menu inicial',
+            onPressed: () {
+              Navigator.pushNamed(context, '/');
             },
           )
         ],
       ),
       body: SingleChildScrollView(
         child: Container(
-          color: Colors.grey[200],
+          color: Colors.black87,
           padding: const EdgeInsets.all(20),
           child: _buildForm(),
         ),
@@ -57,27 +67,27 @@ class _EngineRateState extends State<EngineRatePage> {
           _buildHeaderText('Informe os Dados do Motor'),
           _buildVerticalSpace(),
           _buildTextInputField(
-            'Informe o Nome do Veiculo:',
+            'Informe o Nome do Veículo:',
             onSaved: _controller.setCarName,
           ),
           _buildVerticalSpace(),
           _buildNumberInputField(
-            'Diametro Pistão (milimetros)',
+            'Diâmetro Pistão (milímetros)',
             onSaved: _controller.setEngineDimensions,
           ),
           _buildVerticalSpace(),
           _buildNumberInputField(
-            'Curso Virabrequeim (milimetros)',
+            'Curso Virabrequim (milímetros)',
             onSaved: _controller.setCrankshaftCourse,
           ),
           _buildVerticalSpace(),
           _buildNumberInputField(
-            'Espeçura Junta (milimetros)',
+            'Espessura Junta (milímetros)',
             onSaved: _controller.setJointerThinckness,
           ),
           _buildVerticalSpace(),
           _buildNumberInputField(
-            'Diametro Junta (milimetros)',
+            'Diâmetro Junta (milímetros)',
             onSaved: _controller.setJointDiameter,
           ),
           _buildVerticalSpace(),
@@ -92,7 +102,7 @@ class _EngineRateState extends State<EngineRatePage> {
           ),
           _buildVerticalSpace(),
           _buildNumberInputField(
-            'Numero de Pistões',
+            'Número de Pistões',
             onSaved: _controller.setNumberOfPistons,
           ),
           _buildCalculateButton(),
@@ -103,9 +113,9 @@ class _EngineRateState extends State<EngineRatePage> {
 
   _buildNumberInputField(String label, {Function(String) onSaved}) {
     return TextFormField(
+      style: TextStyle(color: Colors.white),
       onSaved: onSaved,
       decoration: InputDecoration(
-        fillColor: Colors.black,
         border: OutlineInputBorder(
           borderSide: BorderSide(
             color: Colors.amber,
@@ -113,14 +123,14 @@ class _EngineRateState extends State<EngineRatePage> {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(4)),
-          borderSide: BorderSide(width: 1, color: Colors.amber[600]),
+          borderSide: BorderSide(width: 1, color: Colors.amber[200]),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(4)),
-          borderSide: BorderSide(width: 1, color: Colors.black),
+          borderSide: BorderSide(width: 1, color: Colors.grey[700]),
         ),
         labelStyle: TextStyle(
-          color: Colors.black,
+          color: Colors.grey[400],
         ),
         labelText: label,
       ),
@@ -131,6 +141,7 @@ class _EngineRateState extends State<EngineRatePage> {
 
   _buildTextInputField(String label, {Function(String) onSaved}) {
     return TextFormField(
+      style: TextStyle(color: Colors.white),
       onSaved: onSaved,
       decoration: InputDecoration(
         fillColor: Colors.black,
@@ -141,14 +152,14 @@ class _EngineRateState extends State<EngineRatePage> {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(4)),
-          borderSide: BorderSide(width: 1, color: Colors.amber[600]),
+          borderSide: BorderSide(width: 1, color: Colors.amber[200]),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(4)),
-          borderSide: BorderSide(width: 1, color: Colors.black),
+          borderSide: BorderSide(width: 1, color: Colors.grey[700]),
         ),
         labelStyle: TextStyle(
-          color: Colors.black,
+          color: Colors.grey[400],
         ),
         labelText: label,
       ),

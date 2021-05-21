@@ -16,7 +16,7 @@ class FuelResultDialog extends StatelessWidget {
           children: [
             ListTile(
               title: Text(
-                'Nome do Combustivel: ${result.name} ',
+                'Nome do Combustível: ${result.name} ',
                 style: TextStyle(
                   color: Colors.white,
                 ),
@@ -24,7 +24,7 @@ class FuelResultDialog extends StatelessWidget {
             ),
             ListTile(
               title: Text(
-                'Valor Toral da Abastecida: R\$${result.amount.toStringAsFixed(2)} ',
+                'Valor total do Abastecimento: R\$${result.amount.toStringAsFixed(2)} ',
                 style: TextStyle(
                   color: Colors.white,
                 ),
@@ -32,14 +32,20 @@ class FuelResultDialog extends StatelessWidget {
             ),
             ListTile(
               title: Text(
-                'KM/Litro: ${result.kmliter.toStringAsFixed(2)}',
+                'Quilômetros por Litro: ${result.kmliter.toStringAsFixed(2)}',
                 style: TextStyle(
                   color: Colors.white,
                 ),
               ),
             ),
             ElevatedButton(
-              child: const Text('Fechar'),
+              style: ElevatedButton.styleFrom(
+                primary: Colors.grey[900],
+              ),
+              child: const Text(
+                'Fechar',
+                style: TextStyle(color: Colors.amber),
+              ),
               onPressed: () => Navigator.pushNamed(context, '/list_fuel'),
             ),
           ],

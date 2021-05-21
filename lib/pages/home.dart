@@ -1,4 +1,4 @@
-import 'package:calculos_automotivos/utils/menu.dart';
+import 'package:utilidades_automotivas/utils/menu.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -11,11 +11,14 @@ class _HomeState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final havaliabeHeight =
+        MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
         title: const Text(
-          'Calculadora Automotiva',
+          'Utilidades Automotivas',
           style: TextStyle(
             fontSize: 15,
             color: Colors.amber,
@@ -23,12 +26,11 @@ class _HomeState extends State<HomePage> {
         ),
         actions: <Widget>[],
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          color: Colors.grey[200],
-          padding: const EdgeInsets.all(20),
-          child: _buildForm(),
-        ),
+      body: Container(
+        height: havaliabeHeight,
+        color: Colors.grey[900],
+        padding: const EdgeInsets.all(05),
+        child: _buildForm(),
       ),
       drawer: menu.buildMenu(context),
     );
@@ -37,53 +39,85 @@ class _HomeState extends State<HomePage> {
   _buildForm() {
     return Form(
       key: _formkey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          SizedBox(
-            height: 150,
-            width: 280,
-            child: Image.asset(
-              'lib/assets/img/logo.jpg',
-              width: 600,
-              height: 240,
-              fit: BoxFit.cover,
+      child: Container(
+        decoration: new BoxDecoration(color: Colors.grey[900]),
+        height: MediaQuery.of(context).size.height * 0.82,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.05,
             ),
-          ),
-          SizedBox(
-            height: 50,
-          ),
-          ElevatedButton(
-            style: ButtonStyle(
-                backgroundColor:
-                    MaterialStateProperty.all<Color>(Colors.black)),
-            child: const Text(
-              'Calcular Taxa',
-              style: TextStyle(
-                color: Colors.amber,
+            Container(
+              child: Image.asset(
+                'lib/assets/img/logo.jpg',
+                width: 600,
+                height: 240,
+                fit: BoxFit.cover,
               ),
             ),
-            onPressed: () => Navigator.pushNamed(context, '/taxa'),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          ElevatedButton(
-            style: ButtonStyle(
-                backgroundColor:
-                    MaterialStateProperty.all<Color>(Colors.black)),
-            child: const Text(
-              'Calcular Consumo Medio',
-              style: TextStyle(
-                color: Colors.amber,
-              ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.02,
             ),
-            onPressed: () => Navigator.pushNamed(context, '/consumo'),
-          ),
-          SizedBox(
-            height: 200,
-          ),
-        ],
+            ElevatedButton(
+              style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(Colors.black)),
+              child: const Text(
+                'Calcular Taxa de Compressão',
+                style: TextStyle(
+                  color: Colors.amber,
+                ),
+              ),
+              onPressed: () => Navigator.pushNamed(context, '/taxa'),
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.02,
+            ),
+            ElevatedButton(
+              style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(Colors.black)),
+              child: const Text(
+                'Calcular Consumo Médio',
+                style: TextStyle(
+                  color: Colors.amber,
+                ),
+              ),
+              onPressed: () => Navigator.pushNamed(context, '/consumo'),
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.02,
+            ),
+            ElevatedButton(
+              style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(Colors.black)),
+              child: const Text(
+                'Lista de Taxas de Compressão',
+                style: TextStyle(
+                  color: Colors.amber,
+                ),
+              ),
+              onPressed: () => Navigator.pushNamed(context, '/list_engine'),
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.02,
+            ),
+            ElevatedButton(
+              style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(Colors.black)),
+              child: const Text(
+                'Lista de Médias de Consumo',
+                style: TextStyle(
+                  color: Colors.amber,
+                ),
+              ),
+              onPressed: () => Navigator.pushNamed(context, '/list_fuel'),
+            ),
+          ],
+        ),
       ),
     );
   }

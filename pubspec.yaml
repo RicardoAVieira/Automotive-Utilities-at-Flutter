@@ -1,5 +1,5 @@
-name: calculos_automotivos
-description: A new Flutter project.
+name: utilidades_automotivas
+description: Aplicativo focado na realização de calculos de cilindrada e taxa de compressão de motores.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
@@ -42,7 +42,7 @@ flutter_icons:
   android: true
   ios : true
   image_path: "dev_assets/calc.png"
-  adaptive_icon_background: "#191919"
+  adaptive_icon_background: "#ff6f00"
   adaptive_icon_foreground: "dev_assets/calc-adaptive.png"
 
 

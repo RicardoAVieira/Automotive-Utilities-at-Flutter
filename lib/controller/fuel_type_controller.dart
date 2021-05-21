@@ -1,5 +1,5 @@
-import 'package:calculos_automotivos/models/fuel_result_model.dart';
-import 'package:calculos_automotivos/models/fuel_type_model.dart';
+import 'package:utilidades_automotivas/models/fuel_result_model.dart';
+import 'package:utilidades_automotivas/models/fuel_type_model.dart';
 import '../helpers/parse_helper.dart';
 
 import '../Database.dart';

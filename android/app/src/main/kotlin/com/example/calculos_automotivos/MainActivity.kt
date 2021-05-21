@@ -1,4 +1,4 @@
-package online.rvdev.calculos_automotivos
+package online.rvdev.utilidades_automotivas
 
 import io.flutter.embedding.android.FlutterActivity
 
